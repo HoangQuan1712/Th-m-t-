@@ -1,0 +1,444 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Chi tiết Vụ án — Thám tử Kinh tế</title>
+  <meta name="description" id="page-desc" content="Phân tích chuyên sâu vụ gian lận tài chính theo quy trình 4 bước: Bối cảnh, Mánh khóe, Lỗi Kiểm toán, Hậu quả.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-brand">
+      <svg class="nav-brand-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="20" fill="#0d1426"/>
+        <path d="M8 16 Q20 10 32 16 L30 18 Q20 13 10 18Z" fill="#d4a017"/>
+        <rect x="7" y="16" width="26" height="3" rx="1.5" fill="#d4a017"/>
+        <ellipse cx="20" cy="23" rx="7" ry="8" fill="#1a2540"/>
+        <circle cx="26" cy="28" r="5" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+        <line x1="29.5" y1="31.5" x2="33" y2="35" stroke="#d4a017" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <div class="nav-brand-text">
+        <span class="nav-brand-title">Thám tử Kinh tế</span>
+        <span class="nav-brand-sub">Economic Detective</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Trang chủ</a>
+      <a href="cases.html" class="nav-link active">Hồ sơ Vụ án</a>
+      <a href="resources.html" class="nav-link">Thư viện</a>
+      <a href="about.html" class="nav-link">Giới thiệu</a>
+      <a href="admin.html" class="nav-link" id="admin-nav-link" style="display:none;">⚙️ Admin</a>
+    </div>
+    <div id="nav-auth-area" class="nav-right"></div>
+  </div>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="index.html" class="nav-link">🏠 Trang chủ</a>
+  <a href="cases.html" class="nav-link">🗂️ Hồ sơ Vụ án</a>
+  <a href="resources.html" class="nav-link">📚 Thư viện</a>
+</div>
+
+<!-- Case Detail Header -->
+<div class="case-detail-header" id="case-header">
+  <div class="container">
+    <div class="breadcrumb" style="margin-bottom:var(--space-5)">
+      <a href="index.html">Trang chủ</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="cases.html">Hồ sơ Vụ án</a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="text-gold" id="breadcrumb-title">Đang tải...</span>
+    </div>
+
+    <div class="case-meta-strip" id="case-meta-strip">
+      <!-- Populated by JS -->
+    </div>
+
+    <h1 id="case-title" style="margin-bottom:var(--space-4)">Đang tải vụ án...</h1>
+    <p id="case-subtitle" style="color:var(--text-muted);font-size:1.05rem;margin-bottom:var(--space-5);font-style:italic;"></p>
+
+    <div id="case-damage-hero" class="case-damage-hero">
+      <!-- Populated by JS -->
+    </div>
+
+    <div id="case-standards-header" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-4)">
+      <!-- Standards badges -->
+    </div>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="page-body">
+  <div class="container" style="padding-top:var(--space-10);padding-bottom:var(--space-16);">
+    <div class="case-detail-layout">
+
+      <!-- Left: Main Content -->
+      <div>
+        <!-- 4-Step Timeline -->
+        <div class="section-label" style="margin-bottom:var(--space-6)">📋 Phân tích 4 bước</div>
+        <div class="timeline" id="case-timeline">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Standards Violation Box -->
+        <div class="standards-box reveal" id="standards-box">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Lessons -->
+        <div class="card card-body reveal mt-6" id="lessons-box" style="border-left:3px solid var(--gold-500);">
+          <h3 style="font-size:1.1rem;margin-bottom:var(--space-5);">💡 Bài học cho Kiểm toán viên</h3>
+          <div id="lessons-list"></div>
+        </div>
+
+        <!-- Downloads -->
+        <div class="download-box reveal mt-6" id="downloads-box">
+          <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--green-400);margin-bottom:var(--space-4);">
+            📥 Tài liệu đính kèm
+          </div>
+          <div id="downloads-list"></div>
+        </div>
+
+        <!-- Forum Section -->
+        <div class="forum-section" id="forum-section">
+          <div class="forum-header">
+            <h2 style="font-size:1.3rem;">💬 Thảo luận cộng đồng <span id="comment-count" class="badge badge-gold ml-2">0</span></h2>
+            <div class="flex items-center gap-2">
+              <span class="text-sm text-muted">Upvote phân tích hay để lên top</span>
+            </div>
+          </div>
+
+          <!-- Comment form (members only) -->
+          <div class="comment-form" id="comment-form">
+            <div class="comment-form-header">
+              <div class="avatar" id="forum-avatar">?</div>
+              <div>
+                <div style="font-size:0.9rem;font-weight:600;" id="forum-username">Đăng nhập để bình luận</div>
+                <div id="forum-user-badge" class="text-xs text-muted"></div>
+              </div>
+            </div>
+            <div id="guest-notice" style="text-align:center;padding:var(--space-6);color:var(--text-muted);font-size:0.9rem;display:none;">
+              🔒 Chuyển sang chế độ <strong class="text-gold">Member</strong> ở góc trên để tham gia thảo luận
+            </div>
+            <div id="member-form">
+              <textarea class="comment-textarea" id="main-comment-text"
+                placeholder="Chia sẻ phân tích của bạn... Bạn thấy dấu hiệu gian lận nào? Kiểm toán viên nên làm gì khác?"></textarea>
+              <div class="comment-form-footer">
+                <button class="btn btn-primary btn-sm" onclick="submitComment()">
+                  🚀 Đăng phân tích
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comments List -->
+          <div id="comments-list"></div>
+        </div>
+      </div>
+
+      <!-- Right: Sidebar -->
+      <div>
+        <!-- Case Info Card -->
+        <div class="card card-body mb-6 reveal">
+          <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold-500);margin-bottom:var(--space-4);">📊 Thông tin Vụ án</h4>
+          <div id="sidebar-info"></div>
+        </div>
+
+        <!-- Tricks Summary Card -->
+        <div class="card card-body mb-6 reveal delay-1">
+          <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--red-400);margin-bottom:var(--space-4);">🎭 Mánh khóe chính</h4>
+          <p style="font-size:0.9rem;color:var(--text-secondary);line-height:1.7;" id="sidebar-trick"></p>
+        </div>
+
+        <!-- Categories -->
+        <div class="card card-body mb-6 reveal delay-2">
+          <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-faint);margin-bottom:var(--space-4);">📌 Khoản mục liên quan</h4>
+          <div id="sidebar-categories" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+        </div>
+
+        <!-- Related Cases -->
+        <div class="card card-body reveal delay-3">
+          <h4 style="font-size:0.85rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-faint);margin-bottom:var(--space-4);">🗂️ Vụ án liên quan</h4>
+          <div id="related-cases"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Download Modal -->
+<div class="modal-overlay" id="modal-download">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;">📥 Tải tài liệu</h3>
+      <button class="modal-close" onclick="closeModal('modal-download')">×</button>
+    </div>
+    <div class="modal-body" id="download-modal-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-download')">Đóng</button>
+      <button class="btn btn-primary btn-sm" id="download-confirm-btn">✅ Tải về</button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer" style="margin-top:0;">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Thám tử Kinh tế. Nội dung chỉ mang tính học thuật.</p>
+      <a href="cases.html" class="text-gold text-sm">← Quay lại Hồ sơ Vụ án</a>
+    </div>
+  </div>
+</footer>
+
+<div id="toast-container" class="toast-container"></div>
+
+<script src="js/auth.js"></script>
+<script src="js/cases.js"></script>
+<script src="js/forum.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  AUTH.init();
+
+  // ── Login Gate: guest cannot view case detail ────────────────
+  const _session = AUTH.getSession();
+  if (!_session) {
+    // Show page skeleton briefly then gate
+    setTimeout(() => AUTH.showLoginGate('view_case'), 800);
+  }
+
+  // Load case from URL param
+  const params = new URLSearchParams(window.location.search);
+  const caseId = params.get('id') || 'enron-2001';
+  const caseData = CaseEngine.getById(caseId);
+
+  // Classic cases locked behind VIP
+  const CLASSIC_CASES = ['enron-2001','worldcom-2002','parmalat-2003','wirecard-2020'];
+  const isClassic = CLASSIC_CASES.includes(caseId);
+  if (isClassic && _session && !_session.vip && _session.role !== 'admin') {
+    setTimeout(() => AUTH.showLoginGate('view_classic'), 600);
+  }
+
+  const STEP_LABELS = [
+    { key: 'context',       title: '🏛️ Bối cảnh', color: '#3b82f6' },
+    { key: 'trick',         title: '🎭 Diễn biến Gian lận', color: '#d4a017' },
+    { key: 'audit_failure', title: '🔦 Sai sót Kiểm toán', color: '#dc2626' },
+    { key: 'consequence',   title: '⚖️ Hậu quả & Bài học', color: '#4ade80' }
+  ];
+
+  const CATEGORY_LABELS = {
+    'doanh-thu': '📈 Doanh thu', 'hang-ton-kho': '📦 Hàng tồn kho',
+    'no-phai-tra': '💳 Nợ phải trả', 'tien-mat': '💰 Tiền mặt',
+    'bat-dong-san': '🏢 Bất động sản', 'trai-phieu': '📜 Trái phiếu',
+    'tai-san-co-dinh': '🏭 Tài sản cố định', 'chi-phi': '💸 Chi phí',
+    'ngan-hang': '🏦 Ngân hàng', 'tai-san-ao': '👻 Tài sản ảo',
+    'cong-ty-lien-ket': '🔗 Công ty liên kết', 'dau-tu': '📊 Đầu tư',
+    'noi-bo': '🔒 Nội bộ'
+  };
+
+  function renderCase(c) {
+    if (!c) {
+      document.getElementById('case-title').textContent = '❌ Không tìm thấy vụ án';
+      return;
+    }
+
+    // Meta
+    document.title = `${c.title} — Thám tử Kinh tế`;
+    document.getElementById('page-title').textContent = `${c.title} — Thám tử Kinh tế`;
+    document.getElementById('breadcrumb-title').textContent = c.title;
+    document.getElementById('case-title').textContent = `${c.icon} ${c.title}`;
+    document.getElementById('case-subtitle').textContent = c.subtitle;
+
+    // Meta strip
+    document.getElementById('case-meta-strip').innerHTML = `
+      <div class="case-meta-item">${c.countryFlag} <strong>${c.country === 'Vietnam' ? 'Việt Nam' : c.country}</strong></div>
+      <div class="case-meta-item">📅 <strong>${c.year}</strong></div>
+      <div class="case-meta-item">🏭 <strong>${c.sector}</strong></div>
+      <div class="case-meta-item">👁️ <strong>${c.views?.toLocaleString('vi-VN') || 0}</strong> lượt xem</div>
+      <div class="case-meta-item">💬 <strong>${c.comments || 0}</strong> bình luận</div>
+    `;
+
+    // Damage hero
+    document.getElementById('case-damage-hero').innerHTML = `
+      <div class="damage-icon">💸</div>
+      <div>
+        <div class="damage-label">Thiệt hại ước tính</div>
+        <div class="damage-amount">${c.damageVND || c.damage}</div>
+      </div>
+    `;
+
+    // Standards header
+    document.getElementById('case-standards-header').innerHTML =
+      c.standards.map(s => `<span class="badge badge-red">${s}</span>`).join('');
+
+    // Timeline 4 sections (no step numbers — narrative flow)
+    document.getElementById('case-timeline').innerHTML = STEP_LABELS.map((step, i) => {
+      const content = (c.timeline[step.key] || '').replace(/\n/g, '</p><p style="margin-top:14px;color:var(--text-secondary);font-size:0.9rem;line-height:1.9;">');
+      return `
+      <div class="timeline-step timeline-item delay-${i+1}">
+        <div class="timeline-dot" style="background:${step.color}"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:var(--space-4);">
+          <div style="width:3px;height:28px;background:${step.color};border-radius:2px;flex-shrink:0;"></div>
+          <h3 class="timeline-step-title" style="margin:0;">${step.title}</h3>
+        </div>
+        <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.9;margin:0;">${content}</p>
+      </div>
+    `}).join('');
+
+    // Standards box
+    document.getElementById('standards-box').innerHTML = `
+      <div class="standards-box-header">⚠️ Chuẩn mực VSA/ISA bị vi phạm</div>
+      ${c.standards.map(s => `
+        <div class="standard-item">
+          <span class="standard-code">${s}</span>
+          <span class="standard-desc">${getStandardDesc(s)}</span>
+        </div>
+      `).join('')}
+    `;
+
+    // Lessons
+    document.getElementById('lessons-list').innerHTML = (c.lessons || []).map((l, i) => `
+      <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+        <span style="color:var(--gold-500);font-weight:700;font-size:0.9rem;flex-shrink:0;">${i+1}.</span>
+        <p style="font-size:0.88rem;color:var(--text-secondary);line-height:1.6;margin:0;">${l}</p>
+      </div>
+    `).join('');
+
+    // Downloads
+    document.getElementById('downloads-list').innerHTML = (c.downloads || []).map(d => `
+      <div class="download-item">
+        <div class="download-info">
+          <span class="download-icon">${d.type === 'PDF' ? '📄' : d.type === 'XLSX' ? '📊' : '📁'}</span>
+          <div>
+            <div class="download-name">${d.name}</div>
+            <div class="download-size">${d.type} · ${d.size}</div>
+          </div>
+        </div>
+        ${d.free
+          ? `<button class="btn btn-secondary btn-sm" onclick="handleDownload('${d.name}', true)">⬇ Miễn phí</button>`
+          : `<button class="btn btn-primary btn-sm" onclick="handleDownload('${d.name}', false)">🔓 Mở khóa</button>`
+        }
+      </div>
+    `).join('');
+    if (!c.downloads || !c.downloads.length) {
+      document.getElementById('downloads-box').style.display = 'none';
+    }
+
+    // Sidebar info
+    document.getElementById('sidebar-info').innerHTML = `
+      ${infoRow('🌍', 'Quốc gia', `${c.countryFlag} ${c.country === 'Vietnam' ? 'Việt Nam' : c.country}`)}
+      ${infoRow('📅', 'Năm xảy ra', c.year)}
+      ${infoRow('🏭', 'Lĩnh vực', c.sector)}
+      ${infoRow('💸', 'Thiệt hại', `<span style="color:var(--red-400);font-family:var(--font-mono);font-weight:700;">${c.damageVND || c.damage}</span>`)}
+      ${infoRow('⚡', 'Mức độ', `<span class="severity-${c.severity}">${{critical:'🔴 Nghiêm trọng',high:'🟠 Cao',medium:'🟡 Trung bình',low:'🟢 Thấp'}[c.severity]}</span>`)}
+    `;
+
+    document.getElementById('sidebar-trick').textContent = c.trickShort;
+
+    document.getElementById('sidebar-categories').innerHTML = (c.categories || [])
+      .map(cat => `<span class="badge badge-blue">${CATEGORY_LABELS[cat] || cat}</span>`).join('');
+
+    // Related cases
+    const related = CaseEngine.all.filter(x => x.id !== c.id).slice(0, 4);
+    document.getElementById('related-cases').innerHTML = related.map(r => `
+      <div class="related-case-item" onclick="window.location.href='case-detail.html?id=${r.id}'">
+        <div class="related-case-icon">${r.icon}</div>
+        <div>
+          <div class="related-case-name">${r.title}</div>
+          <div class="related-case-damage">${r.year} · ${r.damageVND || r.damage}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function infoRow(icon, label, value) {
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+        <span style="font-size:0.8rem;color:var(--text-faint);">${icon} ${label}</span>
+        <span style="font-size:0.85rem;font-weight:600;color:var(--text-secondary);">${value}</span>
+      </div>
+    `;
+  }
+
+  function getStandardDesc(code) {
+    const map = {
+      'ISA 240': 'Trách nhiệm của KTV đối với gian lận khi kiểm toán BCTC',
+      'ISA 505': 'Xác nhận bên ngoài (External Confirmations)',
+      'ISA 540': 'Kiểm toán các ước tính kế toán',
+      'ISA 550': 'Các bên liên quan (Related Parties)',
+      'ISA 315': 'Xác định và đánh giá rủi ro có sai sót trọng yếu',
+      'ISA 330': 'Phản ứng của KTV đối với các rủi ro đã đánh giá',
+      'ISA 402': 'Các xem xét kiểm toán cho đơn vị sử dụng tổ chức dịch vụ',
+      'ISA 570': 'Hoạt động liên tục (Going Concern)',
+      'ISA 600': 'Kiểm toán BCTC tập đoàn',
+      'ISA 260': 'Trao đổi với ban quản trị',
+      'ISA 230': 'Hồ sơ kiểm toán (Documentation)',
+      'ISA 500': 'Bằng chứng kiểm toán',
+      'VSA 240': 'Gian lận và sai sót (tương đương ISA 240)',
+      'VSA 505': 'Xác nhận bên ngoài (tương đương ISA 505)',
+      'VSA 550': 'Các bên liên quan (tương đương ISA 550)',
+      'VSA 501': 'Bằng chứng kiểm toán - hàng tồn kho',
+      'VSA 315': 'Hiểu biết về đơn vị và môi trường kiểm soát',
+      'VSA 310': 'Nhận thức về hoạt động kinh doanh của khách hàng'
+    };
+    return map[code] || `Chuẩn mực kiểm toán ${code}`;
+  }
+
+  function handleDownload(name, isFree) {
+    if (isFree) {
+      showToast(`📥 Đang tải: ${name}`, 'success');
+      // In real app: trigger actual download
+    } else {
+      document.getElementById('download-modal-body').innerHTML = `
+        <p style="margin-bottom:var(--space-4);">Tài liệu này dành cho <strong class="text-gold">Thành viên VIP</strong>.</p>
+        <div class="flex items-center gap-3">
+          <span style="font-size:1.5rem;">🔒</span>
+          <div>
+            <div style="font-weight:600;">${name}</div>
+            <div class="text-muted text-sm">Nâng cấp để tải xuống không giới hạn</div>
+          </div>
+        </div>
+      `;
+      openModal('modal-download');
+      document.getElementById('download-confirm-btn').onclick = () => {
+        window.location.href = 'resources.html';
+      };
+      document.getElementById('download-confirm-btn').textContent = '🛒 Xem Thư viện VIP';
+    }
+  }
+
+  function submitComment() {
+    const caseId = new URLSearchParams(window.location.search).get('id') || 'enron-2001';
+    FORUM.submitMain(caseId);
+  }
+
+  // Update forum UI based on role
+  function updateForumUI() {
+    const role = AUTH.getRole();
+    const info = AUTH.getRoleInfo();
+    document.getElementById('forum-avatar').textContent = AUTH.getInitials();
+    document.getElementById('forum-username').textContent = AUTH.getDisplayName();
+    document.getElementById('forum-user-badge').textContent = info.badge || '';
+    document.getElementById('guest-notice').style.display = role === 'guest' ? 'block' : 'none';
+    document.getElementById('member-form').style.display = role === 'guest' ? 'none' : 'block';
+    const adminLink = document.getElementById('admin-nav-link');
+    if (adminLink) adminLink.style.display = role === 'admin' ? '' : 'none';
+  }
+
+  document.addEventListener('roleChanged', updateForumUI);
+
+  // Init
+  renderCase(caseData);
+  AUTH.init();
+  updateForumUI();
+  const currentCaseId = new URLSearchParams(window.location.search).get('id') || 'enron-2001';
+  FORUM.renderAll(currentCaseId);
+</script>
+</body>
+</html>
+
+

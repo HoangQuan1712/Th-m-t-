@@ -1,0 +1,584 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal — Thám tử Kinh tế</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-brand">
+      <svg class="nav-brand-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="20" fill="#0d1426"/>
+        <path d="M8 16 Q20 10 32 16 L30 18 Q20 13 10 18Z" fill="#d4a017"/>
+        <rect x="7" y="16" width="26" height="3" rx="1.5" fill="#d4a017"/>
+        <ellipse cx="20" cy="23" rx="7" ry="8" fill="#1a2540"/>
+        <circle cx="26" cy="28" r="5" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+        <line x1="29.5" y1="31.5" x2="33" y2="35" stroke="#d4a017" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <div class="nav-brand-text">
+        <span class="nav-brand-title">Thám tử Kinh tế</span>
+        <span class="nav-brand-sub">Admin Portal ⚙️</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">← Trang chủ</a>
+      <a href="cases.html" class="nav-link">Hồ sơ Vụ án</a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-nav" id="btn-logout" onclick="adminLogout()">🚪 Đăng xuất</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Login Gate -->
+<div id="login-gate" class="admin-gate">
+  <div class="admin-gate-card">
+    <div style="font-size:3rem;margin-bottom:var(--space-4);text-align:center">🔐</div>
+    <h2 style="text-align:center;margin-bottom:var(--space-2);font-size:1.3rem;">Admin Portal</h2>
+    <p style="text-align:center;color:var(--text-muted);font-size:0.85rem;margin-bottom:var(--space-6);">Chỉ dành cho nhà sáng lập và cộng tác viên được phân quyền</p>
+    <div class="form-group">
+      <label class="form-label">Mật khẩu Admin</label>
+      <div style="position:relative;">
+        <input type="password" class="form-input" id="admin-pwd-input" placeholder="Nhập mật khẩu..." onkeydown="if(event.key==='Enter')checkAdminLogin()">
+        <button onclick="togglePwd()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1rem;">👁</button>
+      </div>
+    </div>
+    <div id="login-error" class="text-sm" style="color:var(--red-400);display:none;margin-top:-8px;margin-bottom:12px;">❌ Mật khẩu không đúng</div>
+    <button class="btn btn-primary w-full" onclick="checkAdminLogin()" style="width:100%;">
+      🔓 Đăng nhập
+    </button>
+    <p style="text-align:center;margin-top:var(--space-4);font-size:0.75rem;color:var(--text-faint);">
+      Demo: Nhập <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-size:0.72rem;">ThamTuKT@2024</code>
+    </p>
+  </div>
+</div>
+
+<!-- Admin Main (hidden until logged in) -->
+<div id="admin-main" style="display:none;">
+
+  <div class="page-header">
+    <div class="container">
+      <div class="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h1 class="hero-title-animate" style="font-size:1.8rem;">⚙️ Admin Portal</h1>
+          <p style="color:var(--text-muted);margin-top:4px;font-size:0.9rem;">Quản lý nội dung · Import vụ án · Kiểm tra database</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="stat-item" style="padding:12px 20px;background:rgba(212,160,23,0.1);border-radius:12px;border:1px solid rgba(212,160,23,0.2);">
+            <div class="stat-number" style="font-size:1.5rem;" id="admin-case-count">8</div>
+            <div class="stat-label">Vụ án trong DB</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container" style="padding-top:var(--space-8);padding-bottom:var(--space-16);">
+
+    <!-- Tabs -->
+    <div data-tabs>
+      <div class="flex gap-3 mb-8 flex-wrap">
+        <button class="btn btn-secondary tab-btn active" data-tab="ai-import">🪄 AI Import</button>
+        <button class="btn btn-ghost tab-btn" data-tab="manual-form">✍️ Thêm Thủ Công</button>
+        <button class="btn btn-ghost tab-btn" data-tab="manage">📋 Quản lý Vụ án</button>
+        <button class="btn btn-ghost tab-btn" data-tab="settings">⚙️ Cài đặt</button>
+      </div>
+
+      <!-- ── TAB 1: AI IMPORT ────────────────────────────────── -->
+      <div id="tab-ai-import" class="tab-panel active">
+        <div style="display:grid;grid-template-columns:1fr 360px;gap:var(--space-8);align-items:start;">
+
+          <!-- Left: Import controls -->
+          <div>
+            <div class="card card-body">
+              <h3 style="font-size:1rem;margin-bottom:var(--space-5);">🪄 Nhập nguồn phân tích</h3>
+
+              <!-- API Key -->
+              <div class="form-group">
+                <label class="form-label">🔑 Gemini API Key <span class="text-muted">(sessionStorage — không lưu vĩnh viễn)</span></label>
+                <div style="display:flex;gap:8px;">
+                  <input type="password" class="form-input" id="admin-api-key" placeholder="AIza..."
+                    oninput="ADMIN_AI.saveApiKey(this.value)">
+                  <button class="btn btn-ghost btn-sm" onclick="testApiKey()">Test</button>
+                </div>
+                <div id="api-key-status" class="text-xs mt-2" style="color:var(--text-faint);">Nhập API Key từ Google AI Studio (miễn phí)</div>
+              </div>
+
+              <!-- Input type tabs -->
+              <div style="display:flex;gap:8px;margin-bottom:var(--space-4);">
+                <button class="btn btn-secondary btn-sm active-input-tab" onclick="setInputTab('url', this)">🔗 URL bài báo</button>
+                <button class="btn btn-ghost btn-sm" onclick="setInputTab('text', this)">📝 Dán text</button>
+                <button class="btn btn-ghost btn-sm" onclick="setInputTab('file', this)">📄 Upload file</button>
+              </div>
+
+              <!-- URL Input -->
+              <div id="input-url">
+                <div class="form-group">
+                  <label class="form-label">URL bài báo / báo cáo</label>
+                  <input type="url" class="form-input" id="ai-url-input"
+                    placeholder="https://cafef.vn/bai-bao-vu-gian-lan...">
+                </div>
+              </div>
+
+              <!-- Text Input -->
+              <div id="input-text" style="display:none;">
+                <div class="form-group">
+                  <label class="form-label">Nội dung bài báo / báo cáo (copy-paste)</label>
+                  <textarea class="form-input" id="ai-text-input" rows="8"
+                    placeholder="Dán toàn bộ nội dung bài báo hoặc đoạn trích báo cáo vào đây..."></textarea>
+                </div>
+              </div>
+
+              <!-- File Input -->
+              <div id="input-file" style="display:none;">
+                <div class="drop-zone" id="pdf-drop-zone">
+                  <div class="drop-zone-icon">📄</div>
+                  <p>Kéo & Thả file hoặc click để chọn</p>
+                  <p class="text-xs text-muted">Hỗ trợ .txt (PDF.js cho .pdf sẽ có trong Phase 2)</p>
+                  <input type="file" id="pdf-file-input" accept=".txt,.pdf" style="display:none;">
+                </div>
+              </div>
+
+              <button class="btn btn-primary" id="btn-ai-extract" onclick="runAiExtraction()" style="width:100%;margin-top:var(--space-4);">
+                🪄 Phân tích & Bóc tách bằng AI
+              </button>
+            </div>
+
+            <!-- AI Loading Steps -->
+            <div id="ai-loading" class="ai-loading-panel" style="display:none;">
+              <div class="ai-loading-header">
+                <div class="spinner-lg"></div>
+                <span>Thám tử AI đang làm việc...</span>
+              </div>
+              <div class="ai-steps-list">
+                ${['read','extract','standard','format'].map((id, i) => {
+                  const labels = ['Đọc & phân tích tài liệu','Trích xuất thông tin vụ án','Đối chiếu chuẩn mực VSA/ISA','Định dạng dữ liệu đầu ra'];
+                  const icons = ['📄','🔍','📋','✨'];
+                  return `<div class="ai-step" id="ai-step-${id}"><span class="step-icon">${icons[i]}</span><span>${labels[i]}</span></div>`;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Sidebar info -->
+          <div>
+            <div class="card card-body" style="position:sticky;top:80px;">
+              <h4 style="font-size:0.85rem;font-weight:700;color:var(--gold-400);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:var(--space-4);">💡 Hướng dẫn sử dụng AI</h4>
+              <ol style="padding-left:16px;list-style:decimal;display:flex;flex-direction:column;gap:10px;">
+                <li class="text-sm text-muted">Lấy <strong class="text-gold">Gemini API Key miễn phí</strong> tại <a href="https://aistudio.google.com" target="_blank" style="color:var(--blue-400);">aistudio.google.com</a></li>
+                <li class="text-sm text-muted">Nhập URL bài báo hoặc copy-paste nội dung</li>
+                <li class="text-sm text-muted">Bấm phân tích — AI tự bóc tách &amp; điền form</li>
+                <li class="text-sm text-muted">Kiểm tra, chỉnh sửa và bấm Lưu vụ án</li>
+              </ol>
+              <div style="margin-top:var(--space-4);background:rgba(212,160,23,0.08);border-radius:8px;padding:12px;">
+                <div class="text-xs text-gold font-bold mb-2">📊 Thống kê tháng này</div>
+                <div class="text-sm text-muted">Đã import: <strong class="text-primary">3 vụ án</strong></div>
+                <div class="text-sm text-muted">API calls: <strong class="text-primary">12 lần</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI Result Form (hidden until AI runs) -->
+        <div id="ai-result-section" style="display:none;margin-top:var(--space-8);">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:var(--space-6);">
+            <span style="font-size:1.5rem;">✅</span>
+            <div>
+              <h3 style="font-size:1rem;margin-bottom:2px;">Bóc tách thành công! Kiểm tra và chỉnh sửa trước khi xuất bản.</h3>
+              <p class="text-sm text-muted">Các trường được AI điền sẽ highlight màu vàng trong 5 giây.</p>
+            </div>
+          </div>
+          <!-- The shared form -->
+          <div id="case-form-ai"></div>
+        </div>
+      </div>
+
+      <!-- ── TAB 2: MANUAL FORM ──────────────────────────────── -->
+      <div id="tab-manual-form" class="tab-panel">
+        <div id="manual-case-form"></div>
+      </div>
+
+      <!-- ── TAB 3: MANAGE ──────────────────────────────────── -->
+      <div id="tab-manage" class="tab-panel">
+        <div class="flex items-center justify-between mb-6">
+          <h3 style="font-size:1rem;">📋 Danh sách vụ án trong database</h3>
+          <div class="search-bar" style="width:280px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" placeholder="Tìm vụ án..." oninput="filterManageList(this.value)">
+          </div>
+        </div>
+        <div id="manage-cases-list"></div>
+      </div>
+
+      <!-- ── TAB 4: SETTINGS ────────────────────────────────── -->
+      <div id="tab-settings" class="tab-panel">
+        <div style="max-width:600px;">
+          <h3 style="font-size:1rem;margin-bottom:var(--space-6);">⚙️ Cài đặt hệ thống</h3>
+
+          <div class="card card-body mb-6">
+            <h4 style="font-size:0.9rem;margin-bottom:var(--space-4);color:var(--gold-400);">🔑 API Keys</h4>
+            <div class="form-group">
+              <label class="form-label">Gemini API Key (hiện tại)</label>
+              <div style="font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);background:rgba(255,255,255,0.04);padding:10px;border-radius:8px;" id="display-api-key">Chưa nhập</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="ADMIN_AI.clearApiKey(); document.getElementById('display-api-key').textContent='Đã xóa'; showToast('API Key đã được xóa khỏi sessionStorage','info');">
+              🗑️ Xóa API Key khỏi session
+            </button>
+          </div>
+
+          <div class="card card-body mb-6">
+            <h4 style="font-size:0.9rem;margin-bottom:var(--space-4);color:var(--gold-400);">🗄️ Database</h4>
+            <div class="text-sm text-muted mb-4">Tất cả vụ án tùy chỉnh được lưu trong <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">localStorage</code> của trình duyệt.</div>
+            <div class="flex gap-3">
+              <button class="btn btn-secondary btn-sm" onclick="exportDatabase()">📤 Export JSON</button>
+              <button class="btn btn-ghost btn-sm" onclick="clearCustomCases()">🗑️ Xóa vụ án tùy chỉnh</button>
+            </div>
+          </div>
+
+          <div class="card card-body">
+            <h4 style="font-size:0.9rem;margin-bottom:var(--space-4);color:var(--gold-400);">🔒 Bảo mật</h4>
+            <div class="text-sm text-muted mb-4">Trang Admin dùng kiểm tra mật khẩu phía client (demo). Phase 2 sẽ tích hợp Firebase Auth.</div>
+            <button class="btn btn-ghost btn-sm" onclick="adminLogout()">🚪 Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Export JSON Modal -->
+<div class="modal-overlay" id="modal-export">
+  <div class="modal" style="max-width:680px;">
+    <div class="modal-header">
+      <h3 style="font-size:1rem;">📤 Xuất dữ liệu JSON</h3>
+      <button class="modal-close" onclick="closeModal('modal-export')">×</button>
+    </div>
+    <div class="modal-body">
+      <pre id="db-export-content" style="font-size:0.72rem;max-height:400px;overflow:auto;background:rgba(0,0,0,0.3);padding:16px;border-radius:8px;font-family:var(--font-mono);"></pre>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal('modal-export')">Đóng</button>
+      <button class="btn btn-primary btn-sm" onclick="ADMIN_AI.copyJson()">📋 Copy JSON</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+<script src="js/auth.js"></script>
+<script src="js/cases.js"></script>
+<script src="js/admin-ai.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  // ── Auth Gate ─────────────────────────────────────────────
+  function checkAdminLogin() {
+    const pwd = document.getElementById('admin-pwd-input').value;
+    if (AUTH.checkAdminPassword(pwd)) {
+      AUTH.setRole('admin');
+      document.getElementById('login-gate').style.display = 'none';
+      document.getElementById('admin-main').style.display = 'block';
+      loadAdminMain();
+      showToast('🕵️ Chào mừng, Thám tử!', 'success');
+    } else {
+      document.getElementById('login-error').style.display = 'block';
+      document.getElementById('admin-pwd-input').classList.add('error');
+    }
+  }
+
+  function adminLogout() {
+    AUTH.setRole('guest');
+    document.getElementById('login-gate').style.display = 'flex';
+    document.getElementById('admin-main').style.display = 'none';
+    document.getElementById('admin-pwd-input').value = '';
+    document.getElementById('login-error').style.display = 'none';
+    showToast('Đã đăng xuất', 'info');
+  }
+
+  function togglePwd() {
+    const el = document.getElementById('admin-pwd-input');
+    el.type = el.type === 'password' ? 'text' : 'password';
+  }
+
+  // Auto-login if already admin role
+  window.addEventListener('DOMContentLoaded', () => {
+    if (AUTH.getRole() === 'admin') {
+      document.getElementById('login-gate').style.display = 'none';
+      document.getElementById('admin-main').style.display = 'block';
+      loadAdminMain();
+    }
+    AUTH.init();
+    initTabs('admin-main');
+    ADMIN_AI.initDropZone();
+    buildCaseForm('case-form-ai');
+    buildCaseForm('manual-case-form');
+  });
+
+  // ── Load Admin Dashboard ───────────────────────────────────
+  function loadAdminMain() {
+    const customCases = JSON.parse(localStorage.getItem('thamtu_cases') || '[]');
+    const total = CaseEngine.all.length + customCases.length;
+    document.getElementById('admin-case-count').textContent = total;
+
+    // Update API key display
+    const key = ADMIN_AI.getApiKey();
+    const keyDisplay = document.getElementById('display-api-key');
+    if (keyDisplay && key) keyDisplay.textContent = key.slice(0, 8) + '••••••••' + key.slice(-4);
+
+    renderManageList(CaseEngine.all.concat(customCases));
+  }
+
+  // ── Input Tab switching ────────────────────────────────────
+  function setInputTab(type, btn) {
+    ['url','text','file'].forEach(t => document.getElementById(`input-${t}`).style.display = t === type ? 'block' : 'none');
+    document.querySelectorAll('.active-input-tab').forEach(b => {
+      b.classList.remove('active-input-tab','btn-secondary');
+      b.classList.add('btn-ghost');
+    });
+    btn.classList.add('active-input-tab','btn-secondary');
+    btn.classList.remove('btn-ghost');
+  }
+
+  // ── Run AI extraction ──────────────────────────────────────
+  async function runAiExtraction() {
+    const activeTab = document.querySelector('.active-input-tab')?.textContent?.includes('URL') ? 'url'
+      : document.querySelector('.active-input-tab')?.textContent?.includes('text') ? 'text' : 'file';
+
+    if (activeTab === 'url') {
+      const url = document.getElementById('ai-url-input').value.trim();
+      if (!url) { showToast('Vui lòng nhập URL!', 'error'); return; }
+      await ADMIN_AI.extract('url', url);
+    } else if (activeTab === 'text') {
+      const text = document.getElementById('ai-text-input').value.trim();
+      if (!text) { showToast('Vui lòng dán nội dung!', 'error'); return; }
+      await ADMIN_AI.extract('text', text);
+    } else {
+      if (!window._selectedFile) { showToast('Vui lòng chọn file!', 'error'); return; }
+      await ADMIN_AI.extract('file', window._selectedFile);
+    }
+  }
+
+  async function testApiKey() {
+    const key = document.getElementById('admin-api-key').value.trim();
+    if (!key) { showToast('Nhập API Key trước!', 'error'); return; }
+    ADMIN_AI.saveApiKey(key);
+    showToast('🔍 Đang kiểm tra API Key...', 'info', 2000);
+    try {
+      await ADMIN_AI.extract('text', 'Vụ gian lận test: Công ty ABC gian lận doanh thu năm 2020.');
+      showToast('✅ API Key hoạt động tốt!', 'success', 3000);
+      document.getElementById('api-key-status').textContent = '✅ API Key hợp lệ';
+      document.getElementById('api-key-status').style.color = 'var(--green-400)';
+    } catch (e) {
+      showToast(`❌ API Key lỗi: ${e.message}`, 'error', 4000);
+    }
+  }
+
+  // ── Build Case Form ────────────────────────────────────────
+  function buildCaseForm(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const cats = [
+      {v:'doanh-thu',l:'📈 Doanh thu'},{v:'hang-ton-kho',l:'📦 Hàng tồn kho'},
+      {v:'tien-mat',l:'💰 Tiền mặt'},{v:'trai-phieu',l:'📜 Trái phiếu'},
+      {v:'bat-dong-san',l:'🏢 Bất động sản'},{v:'tai-san-co-dinh',l:'🏭 TSCĐ'},
+      {v:'tai-san-ao',l:'👻 Tài sản ảo'},{v:'no-phai-tra',l:'💳 Nợ phải trả'},
+      {v:'ngan-hang',l:'🏦 Ngân hàng'},{v:'cong-ty-lien-ket',l:'🔗 Công ty liên kết'}
+    ];
+
+    container.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6);">
+        <div>
+          <div class="form-group">
+            <label class="form-label">📌 Tên vụ án *</label>
+            <input class="form-input" id="field-title" placeholder="VD: Vụ gian lận FTX 2022">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label">📅 Năm *</label>
+              <input class="form-input" id="field-year" type="number" placeholder="${new Date().getFullYear()}">
+            </div>
+            <div class="form-group">
+              <label class="form-label">🌍 Quốc gia</label>
+              <select class="form-select" id="field-country">
+                <option value="Vietnam">🇻🇳 Việt Nam</option>
+                <option value="USA">🇺🇸 Hoa Kỳ</option>
+                <option value="Germany">🇩🇪 Đức</option>
+                <option value="Japan">🇯🇵 Nhật Bản</option>
+                <option value="UK">🇬🇧 Anh</option>
+                <option value="Other">🌐 Khác</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🏭 Lĩnh vực ngành</label>
+            <input class="form-input" id="field-sector" placeholder="VD: Năng lượng, Ngân hàng, BĐS...">
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);">
+            <div class="form-group">
+              <label class="form-label">💸 Thiệt hại ước tính</label>
+              <input class="form-input" id="field-damage" placeholder="VD: $63B USD / 304 nghìn tỷ VNĐ">
+            </div>
+            <div class="form-group">
+              <label class="form-label">⚡ Mức độ</label>
+              <select class="form-select" id="field-severity">
+                <option value="critical">🔴 Critical (>$1B)</option>
+                <option value="high">🟠 High ($100M-$1B)</option>
+                <option value="medium">🟡 Medium ($10-100M)</option>
+                <option value="low">🟢 Low (<$10M)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🎭 Tóm tắt mánh khóe (1-2 câu)</label>
+            <textarea class="form-input" id="field-trick-short" rows="2" placeholder="Mánh khóe kế toán chính được sử dụng..."></textarea>
+          </div>
+          <!-- Standards -->
+          <div class="form-group">
+            <label class="form-label">📋 Chuẩn mực vi phạm</label>
+            <div class="standards-chips" id="field-standards-display"></div>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <select class="form-select btn-sm" id="standard-add-select" style="flex:1;">
+                ${['ISA 240','ISA 505','ISA 540','ISA 550','ISA 315','ISA 330','ISA 570','ISA 600','VSA 240','VSA 505','VSA 550'].map(s=>`<option>${s}</option>`).join('')}
+              </select>
+              <button class="btn btn-ghost btn-sm" onclick="addStandard()">+ Thêm</button>
+            </div>
+          </div>
+          <!-- Categories -->
+          <div class="form-group">
+            <label class="form-label">📌 Khoản mục gian lận</label>
+            <div class="checkbox-grid">
+              ${cats.map(c=>`<label class="filter-option"><input type="checkbox" name="category" value="${c.v}"> ${c.l}</label>`).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="form-group">
+            <label class="form-label">🏛️ Bước 1: Bối cảnh</label>
+            <textarea class="form-input" id="field-context" rows="5" placeholder="Bối cảnh doanh nghiệp, thị trường..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🎭 Bước 2: Mánh khóe kế toán</label>
+            <textarea class="form-input" id="field-trick" rows="5" placeholder="Chi tiết kỹ thuật kế toán gian lận..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">🔦 Bước 3: Lỗi Kiểm toán</label>
+            <textarea class="form-input" id="field-audit" rows="5" placeholder="KTV đã bỏ qua gì? Vi phạm chuẩn mực nào?"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">⚖️ Bước 4: Hậu quả & Bài học</label>
+            <textarea class="form-input" id="field-consequence" rows="5" placeholder="Án phạt, kết quả pháp lý, bài học..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">💡 Bài học (mỗi bài học 1 dòng)</label>
+            <textarea class="form-input" id="field-lessons" rows="4" placeholder="Bài học 1...&#10;Bài học 2...&#10;Bài học 3..."></textarea>
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:var(--space-2);">
+            <button class="btn btn-primary" style="flex:1;" onclick="ADMIN_AI.saveCase()">💾 Lưu vào Database</button>
+            <button class="btn btn-secondary" onclick="previewCase()">👁 Xem trước</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Export JSON -->
+      <div id="export-json-wrapper" style="display:none;margin-top:var(--space-6);">
+        <div class="flex items-center justify-between mb-3">
+          <label class="form-label" style="margin:0;">📤 JSON xuất ra (copy vào cases.js)</label>
+          <button class="btn btn-ghost btn-sm" onclick="ADMIN_AI.copyJson()">📋 Copy</button>
+        </div>
+        <pre id="export-json" style="font-family:var(--font-mono);font-size:0.72rem;background:rgba(0,0,0,0.4);padding:16px;border-radius:8px;overflow:auto;max-height:300px;"></pre>
+      </div>
+    `;
+  }
+
+  function addStandard() {
+    const sel = document.getElementById('standard-add-select');
+    const val = sel.value;
+    const container = document.getElementById('field-standards-display');
+    if (container.querySelector(`[data-std="${val}"]`)) {
+      showToast('Chuẩn mực đã được thêm!', 'info', 1500); return;
+    }
+    const chip = document.createElement('span');
+    chip.className = 'badge badge-red';
+    chip.dataset.std = val;
+    chip.innerHTML = `${val} <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;cursor:pointer;margin-left:4px;padding:0;">×</button>`;
+    container.appendChild(chip);
+  }
+
+  function previewCase() {
+    const data = ADMIN_AI.collectFormData();
+    if (!data.title) { showToast('Nhập tên vụ án trước!', 'error'); return; }
+    window._aiExtractedData = data;
+    const url = `case-detail.html?id=${data.id}&preview=1`;
+    window.open(url, '_blank');
+  }
+
+  // ── Manage Tab ─────────────────────────────────────────────
+  function renderManageList(cases) {
+    const el = document.getElementById('manage-cases-list');
+    if (!el) return;
+    el.innerHTML = `
+      <div class="admin-table-wrapper">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Icon</th>
+              <th>Tên vụ án</th>
+              <th>Năm</th>
+              <th>Thiệt hại</th>
+              <th>Mức độ</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cases.map(c => `
+              <tr>
+                <td>${c.icon}</td>
+                <td><strong>${c.title}</strong></td>
+                <td>${c.year}</td>
+                <td style="font-family:var(--font-mono);font-size:0.8rem;color:var(--red-400);">${c.damageVND || c.damage}</td>
+                <td><span class="severity-dot ${c.severity}"></span> ${c.severity}</td>
+                <td>
+                  <div class="flex gap-2">
+                    <a href="case-detail.html?id=${c.id}" target="_blank" class="btn btn-ghost btn-sm">👁</a>
+                  </div>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    `;
+  }
+
+  function filterManageList(query) {
+    const customCases = JSON.parse(localStorage.getItem('thamtu_cases') || '[]');
+    const all = CaseEngine.all.concat(customCases);
+    const filtered = query ? all.filter(c => c.title.toLowerCase().includes(query.toLowerCase())) : all;
+    renderManageList(filtered);
+  }
+
+  function exportDatabase() {
+    const customCases = JSON.parse(localStorage.getItem('thamtu_cases') || '[]');
+    const all = CaseEngine.all.concat(customCases);
+    document.getElementById('db-export-content').textContent = JSON.stringify(all, null, 2);
+    openModal('modal-export');
+  }
+
+  function clearCustomCases() {
+    if (!confirm('Xóa tất cả vụ án tùy chỉnh? (Vụ án gốc sẽ không bị xóa)')) return;
+    localStorage.removeItem('thamtu_cases');
+    showToast('✅ Đã xóa vụ án tùy chỉnh', 'success');
+    loadAdminMain();
+  }
+</script>
+</body>
+</html>
+

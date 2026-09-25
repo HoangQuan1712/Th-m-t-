@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giới thiệu & Game Phá Án — Thám tử Kinh tế</title>
+  <meta name="description" content="Về dự án Thám tử Kinh tế, sứ mệnh, lộ trình và game mô phỏng kiểm toán phá án đầu tiên tại Việt Nam.">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-brand">
+      <svg class="nav-brand-icon" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="20" fill="#0d1426"/>
+        <path d="M8 16 Q20 10 32 16 L30 18 Q20 13 10 18Z" fill="#d4a017"/>
+        <rect x="7" y="16" width="26" height="3" rx="1.5" fill="#d4a017"/>
+        <ellipse cx="20" cy="23" rx="7" ry="8" fill="#1a2540"/>
+        <circle cx="26" cy="28" r="5" stroke="#d4a017" stroke-width="1.5" fill="none"/>
+        <line x1="29.5" y1="31.5" x2="33" y2="35" stroke="#d4a017" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <div class="nav-brand-text">
+        <span class="nav-brand-title">Thám tử Kinh tế</span>
+        <span class="nav-brand-sub">Economic Detective</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Trang chủ</a>
+      <a href="cases.html" class="nav-link">Hồ sơ Vụ án</a>
+      <a href="resources.html" class="nav-link">Thư viện</a>
+      <a href="about.html" class="nav-link active">Giới thiệu</a>
+      <a href="admin.html" class="nav-link" id="admin-nav-link" style="display:none;">⚙️ Admin</a>
+    </div>
+    <div id="nav-auth-area" class="nav-right"></div>
+  </div>
+</nav>
+<div class="nav-mobile" id="nav-mobile">
+  <a href="index.html" class="nav-link">🏠 Trang chủ</a>
+  <a href="cases.html" class="nav-link">🗂️ Hồ sơ Vụ án</a>
+  <a href="resources.html" class="nav-link">📚 Thư viện</a>
+</div>
+
+<div class="page-header">
+  <div class="container">
+    <h1 class="hero-title-animate">🕵️ Về Thám tử Kinh tế</h1>
+    <p class="hero-sub-animate" style="color:var(--text-muted);margin-top:var(--space-3);font-size:1.05rem;">
+      Sứ mệnh · Câu chuyện · Lộ trình · Game Phá Án
+    </p>
+  </div>
+</div>
+
+<div class="page-body">
+  <div class="container" style="padding-top:var(--space-10);padding-bottom:var(--space-16);max-width:960px;">
+
+    <!-- Mission -->
+    <section class="section-sm">
+      <div class="section-label">🎯 Sứ mệnh</div>
+      <h2 class="section-title">Tại sao chúng tôi tồn tại?</h2>
+      <div class="grid-2" style="gap:var(--space-8);align-items:center;">
+        <div>
+          <p style="font-size:1.05rem;line-height:1.9;color:var(--text-secondary);margin-bottom:var(--space-5);">
+            Mỗi năm, thế giới mất hàng <strong class="text-gold">nghìn tỷ đô</strong> vì gian lận tài chính. Tại Việt Nam, các vụ như Vạn Thịnh Phát hay FLC không chỉ là tin tức — chúng là bài học sống về những gì kiểm toán viên đã bỏ qua.
+          </p>
+          <p style="font-size:1.05rem;line-height:1.9;color:var(--text-secondary);margin-bottom:var(--space-5);">
+            <strong class="text-primary">Thám tử Kinh tế</strong> được sinh ra với sứ mệnh đơn giản: <em class="text-gold">biến những con số khô khan thành câu chuyện phá án hấp dẫn</em> — để sinh viên kế toán, kiểm toán viên, và nhà đầu tư đều có thể học từ sai lầm của người khác.
+          </p>
+          <blockquote style="border-left:3px solid var(--gold-500);padding-left:var(--space-4);font-style:italic;color:var(--text-muted);font-family:var(--font-serif);font-size:1.05rem;">
+            "Những vụ gian lận vĩ đại nhất không phải vì tội phạm quá tinh vi. Chúng vĩ đại vì chúng ta đã không đặt đủ câu hỏi."
+          </blockquote>
+        </div>
+        <div class="reveal-right">
+          <div class="card card-body" style="text-align:center;">
+            <div style="font-size:4rem;margin-bottom:var(--space-4);">🕵️</div>
+            <h3 style="font-size:1.1rem;margin-bottom:var(--space-3);">Định vị</h3>
+            <p class="text-muted text-sm" style="line-height:1.8;">
+              Diễn đàn tin tức & phân tích <strong>độc lập đầu tiên tại Việt Nam</strong> chuyên sâu về
+              <strong class="text-gold">Hồ sơ Gian lận Kế - Kiểm</strong> (Fraud Audit Files)
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Values -->
+    <section class="section-sm">
+      <div class="section-label">💎 Giá trị cốt lõi</div>
+      <div class="grid-3">
+        <div class="card card-body text-center reveal">
+          <div style="font-size:2rem;margin-bottom:var(--space-3);">🔍</div>
+          <h4 style="font-family:var(--font-sans);margin-bottom:var(--space-2);">Phân tích độc lập</h4>
+          <p class="text-sm text-muted">Không thiên vị. Mọi vụ án được mổ xẻ thuần túy từ góc độ kỹ thuật kiểm toán.</p>
+        </div>
+        <div class="card card-body text-center reveal delay-1">
+          <div style="font-size:2rem;margin-bottom:var(--space-3);">📖</div>
+          <h4 style="font-family:var(--font-sans);margin-bottom:var(--space-2);">Học từ thực tế</h4>
+          <p class="text-sm text-muted">100% case-study từ vụ án có thật. Không lý thuyết suông, không ví dụ giả định.</p>
+        </div>
+        <div class="card card-body text-center reveal delay-2">
+          <div style="font-size:2rem;margin-bottom:var(--space-3);">🤝</div>
+          <h4 style="font-family:var(--font-sans);margin-bottom:var(--space-2);">Cộng đồng chia sẻ</h4>
+          <p class="text-sm text-muted">Nơi sinh viên, KTV đi làm và giảng viên cùng tranh luận và học hỏi lẫn nhau.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- Roadmap -->
+    <section class="section-sm">
+      <div class="section-label">🗺️ Lộ trình</div>
+      <h2 class="section-title">Chúng tôi đang ở đâu?</h2>
+      <div class="roadmap-grid reveal">
+        <div class="roadmap-phase active">
+          <div class="roadmap-phase-label">🟢 Đang triển khai</div>
+          <h4 class="roadmap-phase-title">Phase 1 — Nền tảng</h4>
+          <div class="roadmap-item done">✅ 8+ hồ sơ vụ án đầu tiên</div>
+          <div class="roadmap-item done">✅ Diễn đàn bình luận cộng đồng</div>
+          <div class="roadmap-item done">✅ Thư viện template kiểm toán</div>
+          <div class="roadmap-item current">🔄 Tính năng AI bóc tách báo cáo</div>
+        </div>
+        <div class="roadmap-phase">
+          <div class="roadmap-phase-label">🟡 Q1 2025</div>
+          <h4 class="roadmap-phase-title">Phase 2 — Backend</h4>
+          <div class="roadmap-item">⬜ Hệ thống đăng nhập thật (Firebase)</div>
+          <div class="roadmap-item">⬜ Database 50+ vụ án</div>
+          <div class="roadmap-item">⬜ VIP Membership thật (Stripe/VNPay)</div>
+          <div class="roadmap-item">⬜ API tích hợp tin tức tự động</div>
+        </div>
+        <div class="roadmap-phase">
+          <div class="roadmap-phase-label">🔵 Q3 2025</div>
+          <h4 class="roadmap-phase-title">Phase 3 — Game</h4>
+          <div class="roadmap-item">⬜ Audit Simulator Game đầy đủ</div>
+          <div class="roadmap-item">⬜ Bảng xếp hạng Thám tử</div>
+          <div class="roadmap-item">⬜ Case-Study Kit cho Giảng viên</div>
+          <div class="roadmap-item">⬜ Mobile App (PWA)</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- ===== GAME TEASER ===== -->
+    <section class="section-sm" id="game">
+      <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-3);">
+        <div class="section-label">&#x1F3AE; Thành viên VIP</div>
+        <span class="badge badge-vip" style="font-size:0.65rem;">⭐ VIP Only</span>
+      </div>
+      <h2 class="section-title">Audit Simulator Game</h2>
+      <p style="color:var(--text-muted);margin-bottom:var(--space-8);font-size:1rem;line-height:1.7;">
+        Nhập vai Kiểm toán viên. Soi BCTC tìm bất thường. Thẩm vấn ban quản trị. Đưa ra ý kiến kiểm toán.
+        <strong class="text-gold">Mỗi quyết định sẽ có hậu quả.</strong>
+      </p>
+
+      <!-- VIP Gate Wrapper -->
+      <div id="game-vip-wrapper" style="position:relative;">
+      <!-- VIP Lock Overlay (shown for non-VIP) -->
+      <div class="vip-lock-overlay" id="game-lock-overlay" style="display:none;border-radius:20px;min-height:300px;">
+        <div class="vip-lock-icon">🔒</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--text-primary);">⭐ Nội dung VIP</div>
+        <div class="vip-lock-text" style="max-width:280px;">Audit Simulator chỉ dành cho thành viên VIP.<br>Nâng cấp để trải nghiệm game mô phỏng kiểm toán thực tế!</div>
+        <a href="resources.html#vip" class="btn btn-primary btn-sm">⭐ Nâng cấp VIP ngay</a>
+      </div>
+
+      <div class="game-preview reveal">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between;background:rgba(212,160,23,0.06);">
+          <div class="flex items-center gap-3">
+            <span style="font-size:1.2rem;">🎮</span>
+            <span style="font-weight:700;font-size:0.95rem;">Audit Simulator — Demo: Vụ Enron 2001</span>
+          </div>
+          <span class="badge badge-gold">DEMO</span>
+        </div>
+
+
+        <div class="game-screen" id="game-screen">
+          <div class="game-terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <span class="terminal-title">audit_simulator_v0.1.exe — Enron Corporation (2000)</span>
+          </div>
+
+          <div id="game-phase-1">
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:var(--space-4);">
+              📋 Bạn được giao nhiệm vụ kiểm toán Báo cáo tài chính năm 2000 của <strong>Enron Corporation</strong>.
+              Hãy xem xét Bảng Cân đối Kế toán và tìm điểm bất thường.
+            </p>
+
+            <div class="game-document">
+              <div style="font-size:0.75rem;color:var(--text-faint);margin-bottom:var(--space-3);font-family:var(--font-mono);">BẢNG CÂN ĐỐI KẾ TOÁN — ENRON CORP (31/12/2000)</div>
+              <div class="game-line">
+                <span class="game-line-label">Tiền & Tương đương Tiền</span>
+                <span class="game-line-value normal">$1.374M ✓</span>
+              </div>
+              <div class="game-line">
+                <span class="game-line-label">Phải thu thương mại</span>
+                <span class="game-line-value normal">$10.396M ✓</span>
+              </div>
+              <div class="game-line">
+                <span class="game-line-label">Đầu tư vào SPE (Raptor I-IV)</span>
+                <span class="game-line-value suspicious" onclick="clickSuspicious('spe')" title="Click để điều tra!">$1.200M ⚠️ — Điều tra?</span>
+              </div>
+              <div class="game-line">
+                <span class="game-line-label">Tổng Tài sản</span>
+                <span class="game-line-value normal">$65.503M ✓</span>
+              </div>
+              <div class="game-line">
+                <span class="game-line-label">Nợ phải trả dài hạn (báo cáo)</span>
+                <span class="game-line-value normal">$8.550M ✓</span>
+              </div>
+              <div class="game-line">
+                <span class="game-line-label">Cam kết ngoại bảng (SPE)</span>
+                <span class="game-line-value suspicious" onclick="clickSuspicious('offbalance')" title="Click để điều tra!">Không tiết lộ ⚠️ — Xem xét?</span>
+              </div>
+            </div>
+
+            <div id="game-clues" style="display:none;background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);border-radius:12px;padding:16px;margin-bottom:16px;">
+              <div style="font-size:0.8rem;font-weight:700;color:var(--red-400);margin-bottom:8px;">🔍 Phát hiện bất thường!</div>
+              <div id="clue-text" style="font-size:0.82rem;color:var(--text-secondary);line-height:1.6;"></div>
+            </div>
+
+            <div id="game-decision" style="display:none;">
+              <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:var(--space-3);">
+                📝 Dựa trên phân tích, bạn sẽ đưa ra <strong>ý kiến kiểm toán</strong> nào?
+              </p>
+              <div class="game-choices">
+                <button class="game-choice-btn" onclick="makeDecision('accept')">A. Chấp nhận toàn phần — Không phát hiện sai sót trọng yếu</button>
+                <button class="game-choice-btn" onclick="makeDecision('qualified')">B. Ngoại trừ — Không đủ bằng chứng về các SPE và nợ ngoại bảng</button>
+                <button class="game-choice-btn" onclick="makeDecision('adverse')">C. Trái ngược — BCTC phản ánh không trung thực</button>
+                <button class="game-choice-btn" onclick="makeDecision('disclaim')">D. Từ chối đưa ý kiến — Phạm vi bị giới hạn nghiêm trọng</button>
+              </div>
+            </div>
+
+            <div id="game-result" style="display:none;"></div>
+          </div>
+        </div>
+
+        <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="flex items-center gap-3">
+            <span class="badge badge-blue">Level 1/5</span>
+            <div class="progress-bar" style="width:120px;">
+              <div class="progress-fill" style="width:20%"></div>
+            </div>
+            <span class="text-xs text-muted">20% hoàn thành</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-game-signup')">
+            🎮 Đăng ký bản Alpha đầy đủ
+          </button>
+        </div>
+      </div><!-- /game-preview -->
+      </div><!-- /game-vip-wrapper -->
+    </section>
+
+    <hr class="divider">
+
+    <!-- Contact -->
+    <section class="section-sm text-center">
+      <div class="section-label" style="justify-content:center;">📬 Liên hệ</div>
+      <h2 class="section-title">Hợp tác & Đóng góp</h2>
+      <p style="color:var(--text-muted);max-width:500px;margin:0 auto var(--space-8);">
+        Bạn là KTV có vụ án muốn phân tích? Giảng viên muốn dùng Case-Study Kit? Hay muốn tài trợ nội dung?
+      </p>
+      <div class="grid-3" style="max-width:700px;margin:0 auto;">
+        <div class="card card-body text-center reveal">
+          <div style="font-size:1.8rem;margin-bottom:var(--space-2);">✍️</div>
+          <h4 style="font-family:var(--font-sans);font-size:0.9rem;margin-bottom:var(--space-2);">Viết bài cộng tác</h4>
+          <p class="text-xs text-muted">Gửi phân tích vụ án của bạn. Được duyệt → nhận huy hiệu Senior Auditor.</p>
+        </div>
+        <div class="card card-body text-center reveal delay-1">
+          <div style="font-size:1.8rem;margin-bottom:var(--space-2);">🏫</div>
+          <h4 style="font-family:var(--font-sans);font-size:0.9rem;margin-bottom:var(--space-2);">Giảng viên & Trường ĐH</h4>
+          <p class="text-xs text-muted">Nhận bộ Case-Study Kit miễn phí để giảng dạy môn Kiểm toán BCTC.</p>
+        </div>
+        <div class="card card-body text-center reveal delay-2">
+          <div style="font-size:1.8rem;margin-bottom:var(--space-2);">🤝</div>
+          <h4 style="font-family:var(--font-sans);font-size:0.9rem;margin-bottom:var(--space-2);">Tài trợ & Quảng cáo</h4>
+          <p class="text-xs text-muted">Đặt banner, tài trợ bài viết, hoặc hợp tác đào tạo với cộng đồng của chúng tôi.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<!-- Game Signup Modal -->
+<div class="modal-overlay" id="modal-game-signup">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;">🎮 Đăng ký nhận thông báo bản Alpha</h3>
+      <button class="modal-close" onclick="closeModal('modal-game-signup')">×</button>
+    </div>
+    <div class="modal-body">
+      <div style="text-align:center;margin-bottom:var(--space-5);">
+        <div style="font-size:3rem;margin-bottom:var(--space-3);">🕵️</div>
+        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.7;">
+          Audit Simulator Game đang trong giai đoạn phát triển. Để lại email để nhận thông báo khi bản Alpha ra mắt!
+        </p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email của bạn</label>
+        <input type="email" class="form-input" placeholder="email@example.com" id="signup-email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bạn là?</label>
+        <select class="form-select" id="signup-role">
+          <option>Sinh viên Kế toán / Kiểm toán</option>
+          <option>Kiểm toán viên đang đi làm</option>
+          <option>Giảng viên Đại học</option>
+          <option>Nhà đầu tư / Người quan tâm</option>
+        </select>
+      </div>
+      <button class="btn btn-primary w-full" onclick="submitGameSignup()" style="width:100%;">
+        🚀 Đăng ký nhận thông báo
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer class="footer"><div class="container"><div class="footer-bottom"><p>© 2026 Thám tử Kinh tế. Mọi vụ án được phân tích thuần túy vì mục đích học thuật.</p><a href="index.html" class="text-gold text-sm">← Trang chủ</a></div></div></footer>
+<div id="toast-container" class="toast-container"></div>
+
+<script src="js/auth.js"></script>
+<script src="js/animations.js"></script>
+<script>
+  AUTH.init();
+
+  // ── Game VIP Gate ────────────────────────────────────────
+  (function() {
+    const s = AUTH.getSession();
+    const isVip = s && (s.vip || s.role === 'admin');
+    const overlay = document.getElementById('game-lock-overlay');
+    const gamePreview = document.querySelector('.game-preview.reveal');
+    if (!isVip && overlay && gamePreview) {
+      overlay.style.display = 'flex';
+      gamePreview.style.filter = 'blur(4px)';
+      gamePreview.style.pointerEvents = 'none';
+      gamePreview.style.userSelect = 'none';
+    }
+  })();
+
+  // ── Game Logic ────────────────────────────────────────────
+  let cluesFound = 0;
+  const CLUES = {
+    spe: { text: '🔍 <strong>Phát hiện #1:</strong> Khoản đầu tư vào SPE (Raptor I-IV) không có tài liệu thuyết minh đầy đủ. Các SPE này được thành lập bởi CFO Fastow — xung đột lợi ích nghiêm trọng. Theo <strong class="text-red">ISA 550 - Các bên liên quan</strong>, bạn phải xác định liệu SPE có nên được hợp nhất vào BCTC không.', unlock: true },
+    offbalance: { text: '🔍 <strong>Phát hiện #2:</strong> Cam kết ngoại bảng không được tiết lộ đầy đủ. Enron có hơn $1 tỷ cam kết tín dụng ngầm với các SPE. Theo <strong class="text-red">ISA 501/VSA 501</strong>, bạn phải thực hiện thủ tục kiểm tra các khoản mục ngoại bảng.', unlock: true }
+  };
+
+  function clickSuspicious(type) {
+    const clue = CLUES[type];
+    if (!clue) return;
+    const cluesEl = document.getElementById('game-clues');
+    const clueText = document.getElementById('clue-text');
+    clueText.innerHTML = (clueText.innerHTML ? clueText.innerHTML + '<hr style="border-color:rgba(255,255,255,0.06);margin:12px 0;">' : '') + clue.text;
+    cluesEl.style.display = 'block';
+    cluesFound++;
+    if (cluesFound >= 2) {
+      document.getElementById('game-decision').style.display = 'block';
+      showToast('✅ Bạn đã tìm đủ 2 bằng chứng! Hãy đưa ra ý kiến kiểm toán.', 'success', 3000);
+    } else {
+      showToast('🔍 Tìm thấy bằng chứng! Tiếp tục điều tra...', 'info', 2000);
+    }
+    CLUES[type].unlock = false; // Prevent re-clicking
+  }
+
+  function makeDecision(choice) {
+    const results = {
+      accept: {
+        icon: '❌', color: 'var(--red-400)',
+        title: 'Quyết định SAI!',
+        text: 'Bạn đã bỏ qua 2 dấu hiệu đỏ nghiêm trọng. Đây là quyết định Arthur Andersen đã đưa ra — và hậu quả là hãng kiểm toán 89 năm tuổi sụp đổ. Ý kiến chấp nhận toàn phần vi phạm ISA 240 về hoài nghi nghề nghiệp.',
+        lesson: '📚 Bài học: KTV phải duy trì tính hoài nghi nghề nghiệp và không chấp nhận giải thích của ban quản lý mà không có bằng chứng độc lập.'
+      },
+      qualified: {
+        icon: '✅', color: 'var(--gold-400)',
+        title: 'Quyết định ĐÚNG nhất trong hoàn cảnh!',
+        text: 'Ý kiến ngoại trừ là phù hợp khi bạn không có đủ bằng chứng về SPE và nợ ngoại bảng. Điều này sẽ buộc Enron phải giải trình thêm. Tuy nhiên, trong thực tế, Arthur Andersen đã không làm điều này do áp lực từ khách hàng $52M/năm.',
+        lesson: '📚 Bài học: Phí kiểm toán cao KHÔNG được là lý do để hạ thấp tiêu chuẩn chuyên nghiệp. Tính độc lập (ISA 200) là nền tảng của nghề kiểm toán.'
+      },
+      adverse: {
+        icon: '⚠️', color: 'var(--red-400)',
+        title: 'Có cơ sở, nhưng chưa đủ bằng chứng!',
+        text: 'Ý kiến trái ngược đòi hỏi bằng chứng rõ ràng rằng BCTC sai lệch trọng yếu và lan rộng. Ở giai đoạn này bạn chỉ có nghi ngờ, chưa đủ bằng chứng để kết luận trái ngược. Cần mở rộng thủ tục kiểm toán trước.',
+        lesson: '📚 Bài học: Ý kiến kiểm toán phải dựa trên bằng chứng đầy đủ và phù hợp (ISA 500), không chỉ dựa trên nghi ngờ.'
+      },
+      disclaim: {
+        icon: '⚠️', color: 'var(--gold-400)',
+        title: 'Thận trọng — Có thể chấp nhận được!',
+        text: 'Từ chối đưa ý kiến là hợp lý khi phạm vi kiểm toán bị giới hạn nghiêm trọng. Tuy nhiên, điều này đòi hỏi bạn phải chứng minh được rằng mình KHÔNG THỂ thu thập đủ bằng chứng sau khi đã nỗ lực. Bước tiếp theo: yêu cầu ban quản trị cung cấp tài liệu về các SPE.',
+        lesson: '📚 Bài học: Trước khi từ chối đưa ý kiến, KTV phải thực hiện tất cả các thủ tục kiểm toán khả thi và ghi lại lý do giới hạn phạm vi (ISA 705).'
+      }
+    };
+    const r = results[choice];
+    document.getElementById('game-decision').style.display = 'none';
+    document.getElementById('game-result').style.display = 'block';
+    document.getElementById('game-result').innerHTML = `
+      <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;">
+        <div style="font-size:1.5rem;margin-bottom:8px;">${r.icon}</div>
+        <h3 style="color:${r.color};font-size:1rem;margin-bottom:12px;">${r.title}</h3>
+        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7;margin-bottom:12px;">${r.text}</p>
+        <div style="background:rgba(212,160,23,0.08);border-radius:8px;padding:12px;font-size:0.82rem;color:var(--gold-400);">${r.lesson}</div>
+        <div style="display:flex;gap:8px;margin-top:16px;">
+          <button class="btn btn-secondary btn-sm" onclick="resetGame()">🔄 Chơi lại</button>
+          <button class="btn btn-primary btn-sm" onclick="openModal('modal-game-signup')">🎮 Chơi Full Game</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function resetGame() {
+    cluesFound = 0;
+    Object.keys(CLUES).forEach(k => CLUES[k].unlock = true);
+    document.getElementById('game-clues').style.display = 'none';
+    document.getElementById('game-decision').style.display = 'none';
+    document.getElementById('game-result').style.display = 'none';
+    document.getElementById('clue-text').innerHTML = '';
+  }
+
+  function submitGameSignup() {
+    const email = document.getElementById('signup-email').value;
+    if (!email || !email.includes('@')) { showToast('Vui lòng nhập email hợp lệ!', 'error'); return; }
+    closeModal('modal-game-signup');
+    showToast(`🎉 Đã đăng ký! Chúng tôi sẽ thông báo đến ${email} khi game ra mắt.`, 'success', 5000);
+  }
+</script>
+</body>
+</html>
+
+
